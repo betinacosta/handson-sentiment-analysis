@@ -13,4 +13,4 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 
 1. Primeiramente Fora Temer acesse o [site de desenvolvimento do Twitter](https://developer.twitter.com/en/apps) e clique em `Create an APP`.
 
-![Criando um APP](https://github.com/betinacosta/handson-sentiment-analysis/images/craindo-app.png)
+![Criando um APP](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/craindo-app.png)
