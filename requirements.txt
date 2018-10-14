@@ -1,0 +1,2 @@
+textblob==0.15.1
+tweepy==3.6.0
