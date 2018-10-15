@@ -3,12 +3,7 @@
 import tweepy
 import numpy as np
 from textblob import TextBlob
-
-consumer_key=''
-consumer_secret=''
-
-access_token=''
-access_token_secret=''
+from keys import *
 
 auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
 auth.set_access_token(access_token,access_token_secret)
