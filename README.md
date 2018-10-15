@@ -108,13 +108,13 @@ api = tweepy.API(auth)
 **4**. Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a #PythoBrasil, podemos buscar os tweetes que façam referência a esse tópico.
 
 ```python
-tweets = api.search('#PythoBrasil')
+tweets = api.search('Python Brasil')
 ```
 
 ou para ignorar RTs e ter um resultado um pouco mais direcionado
 
 ```python
-tweets = api.search('#PythoBrasil -filter:retweets')
+tweets = api.search('Python Brasil -filter:retweets')
 ```
 
 **5**. E iterar em cima dos resultados, pegando nossos tweets `tweet.text` e colocando no TextBlob
@@ -343,9 +343,9 @@ Como já havia mencionado anteriormente no tutorial, a maioria dos processadore 
 
 Chegamos ao fim do nosso tutorial! Espero que tenha sido possível aprender um pouco sobre análise de sentimentos e manipulação textual. Quaisquer dúvidas, podem entrar em contato:
 
-**E-mail:** bmcosta13@gmail.com
-**Facebook:** fb.com/error404not
-**Twitter:** @ngasonicunicorn
+- **E-mail:** bmcosta13@gmail.com
+- **Facebook:** fb.com/error404not
+- **Twitter:** @ngasonicunicorn
 
 Também gostaria de lembrar que sexta feira dia 19 as 13h40, eu vou apresentar a palestra **Mas afinal, pra que serve Análise de Sentimentos**, onde vocês vão poder saber mais sobre o assunto.
 
