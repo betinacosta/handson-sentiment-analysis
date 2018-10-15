@@ -7,13 +7,13 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 - Python3
 - Pip
 - TextBlob
-- TweetPy
+- TweePy
 - Numpy
 - Uma conta no Twitter
 
 ### Instalando as bibliotecas
 
-- `pip install requirements`
+- `pip install -r requirements.txt`
 - `python -m textblob.download_corpora`
 
 ## Requisitando um perfil de Desenvolvedor
