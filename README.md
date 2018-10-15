@@ -1,6 +1,6 @@
 # Hands on Análise de Sentimentos
 
-Já pensou se você conseguisse identificar as respostas emocionais que usuários apresentam sobre uma determinada entidade de interesse? Saber se as pessoas ficaram mais felizes do que (insirir uma comparação de alegria) com a venda do GitHub para a Microsoft, ou ficaram mais tristes do que o Tony Stark no final de Guerra Infinita? Bom, você veio ao lugar certo, nesse turtorial vamos aprender da forma mais simples possível como criar um analisador de sentimentos com dados obtido pelo Twitter. Bora?
+Já pensou se você conseguisse identificar as respostas emocionais que usuários apresentam sobre uma determinada entidade de interesse? Saber se as pessoas ficaram felizes com a venda do GitHub para a Microsoft, ou mais tristes do que o Tony Stark no final de Guerra Infinita? Bom, você veio ao lugar certo, nesse turtorial vamos aprender da forma mais simples possível como criar um analisador de sentimentos com dados obtido pelo Twitter. Bora?
 
 ## Pré-Requisitos
 
@@ -8,6 +8,8 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 - Pip
 - TextBlob
 - TweetPy
+- Numpy
+- Uma conta no Twitter
 
 ### Instalando as bibliotecas
 
@@ -16,11 +18,40 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 
 ## Requisitando um perfil de Desenvolvedor
 
-Vamos inciar com a parte mais chata trabalhosa, criar um perfil de desenvolvedor e uma APP no twitter. Essa parte é simples, porém o Twitter agora pede altas explicações e descrições que podem ser um pouco chatas de preencher, então vou deixar um preenchimento padrão aqui para quem quiser ~~colar~~ perder menos tempo.
+Vamos inciar com a parte mais chata e trabalhosa, criar um perfil de desenvolvedor e uma APP no twitter. Essa parte é simples, porém o Twitter agora pede altas explicações e descrições que podem ser um pouco chatas de preencher, então vou deixar um preenchimento padrão para quem quiser ~~colar~~ perder menos tempo.
+
+1; Vamos começar acessando https://developer.twitter.com/ e clicando em `Apply`:
+
+![Apply](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/apply.png)
+
+2; Na próxima página, clique em `Apply for a developer account` e em `Continue` na página seguinte para seguir com a sua conta:
+
+![Apply for a developer account](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/apply-developer.png)
+
+3; Informe o tipo de conta que você está criando (`Personal Use` provavelmente) e preencha as informações solicitadas:
+
+![Tipo de Conta](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/tipo-de-conta.png)
+
+4; Na próxima página terão algumas informações a serem preenchidas, preencha o campo `What use case(s) are you interested in?` conforme a imagem e em `Describe in your own words what you are building` coloque o seguinte texto:
+
+```text
+1. I’m using Twitter’s APIs to run a Python Brasil Tutorial about Sentiment Analysis;
+2. I plan to analyse Tweets to understand how people are feeling regarding some subject.
+3. The solution does not involve tweeting, retweeting, neither liking content on twitter. It is just for analysis;
+4. The solution does not involve displaying twitter explicitly, but its polarity and subjectivity
+```
+
+![Casos de Uso](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/casos-de-uso.png)
+
+Em `Will your product, service, or analysis make Twitter content or derived information available to a government entity?` selecione `não`
+
+5; ~~Finja ler~~ leia os `Termos de Serviço` e clique em `concordar`
+
+6; Agora basta **confirmar o seu email** e seguir para a próxima parte :)
 
 ## Criando uma APP no Twitter
 
-1; Primeiramente ~~Fora Temer~~ acesse o [site de desenvolvimento do Twitter](https://developer.twitter.com/en/apps) e clique em `Create an APP`.
+1. Primeiramente ~~Fora Temer~~ acesse o [site de desenvolvimento do Twitter](https://developer.twitter.com/en/apps) e clique em `Create an APP`.
 
 ![Criando um APP](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/craindo-app.png)
 
@@ -63,9 +94,9 @@ auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
 ```
 
-Obs.: Se você quiser saber se a autenticação está funcionando, `tweepy.API(auth)` deve retornar algo parecido com `<tweepy.api.API object at 0x10d3c3240>`
+*Obs.: Se você quiser saber se a autenticação está funcionando, `tweepy.API(auth)` deve retornar algo parecido com `<tweepy.api.API object at 0x10d3c3240>`*
 
-Obs2.: Caso vocês estejam tendo o erro `SyntaxError: invalid syntax` em `def _start(self, async):`, execute `$pip3 install --upgrade git+https://github.com/tweepy/tweepy.git`
+*Obs2.: Caso vocês estejam tendo o erro `SyntaxError: invalid syntax` em `def _start(self, async):`, execute `$pip3 install --upgrade git+https://github.com/tweepy/tweepy.git`*
 
 4; Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a #PythoBrasil, podemos buscar os tweetes que façam referência a esse tópico.
 
@@ -143,4 +174,174 @@ else:
 
 ### Indo um pouco mais longe
 
+11; Vamos modificar um pouco nosso método de busca: ao invés de `tweets = api.search('Python -filter:retweets')` para:
 
+```python
+tweets = tweepy.Cursor(api.search, q="Python -filter:retweets").items(20)
+```
+
+Dessa forma, iremos filtrar somente os tweets que não forem retweets e pegar o numero de tweets determinados;
+
+12; Outra abordagem que podemos tentar, é aplicar uma média ponderada ao invés de uma média simples...
+
+![Meme nazare](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/media-ponderada.jpg)
+
+Calma... a média ponderada nada mais é do que o calculo de média onde alguns valores tem um peso maior do que o outro, assim podemos calcular a média de polaridade utilizando a subjetividade como peso. Desta forma, tweetes mais subjetivos (mais carregados de emoção) terão um peso maior.
+
+```python
+def get_weighted_polarity_mean(valid_tweets):
+    return np.average(valid_tweets['polarity'],weights=valid_tweets['subjectivity'])
+```
+
+13; Como vocês devem ter percebido, a função `np.average` está recebendo um dicionário, coisa que nós não fizemos. Essa é outra pequena mudança que podemos fazer para armazenar todos os valores relevantes para a nossa análise. Desta forma ficamos com:
+
+```python
+    if phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0:
+        polarities.append(phrase.sentiment.polarity)
+        subjectivities.append(phrase.sentiment.subjectivity)
+
+return {'polarity':polarities, 'subjectivity':subjectivities}
+```
+
+13; Também podemos transformar a query utilizada (`q`) em um parametro recebido pela função que irá reralizar a análise:
+
+```python
+def tweet_analysis(query):
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
+```
+
+11; O Código final pode ser encontrado aqui e ficaria da seguinte forma:
+
+```python
+import tweepy
+import numpy as np
+from textblob import TextBlob
+
+consumer_key='your_consumer_key'
+consumer_secret='consumer_secret'
+
+access_token='access_token'
+access_token_secret='access_token_secret'
+
+auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
+auth.set_access_token(access_token,access_token_secret)
+
+api = tweepy.API(auth)
+
+def is_english(text):
+    if text.detect_language() == 'en':
+        return True
+    return False
+
+def tweet_analysis(query):
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
+
+    subjectivities = []
+    polarities = []
+
+    for tweet in tweets:
+        phrase = TextBlob(tweet.text)
+
+        if not is_english(phrase):
+            phrase = TextBlob(str(phrase.translate(to='en')))
+
+        if phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0:
+            polarities.append(phrase.sentiment.polarity)
+            subjectivities.append(phrase.sentiment.subjectivity)
+
+        print('Tweet: ' + tweet.text)
+        print('Polarity: ' + str(phrase.sentiment.polarity) + " \ " + str(phrase.sentiment.subjectivity))
+        print('.....................')
+
+    return {'polarity':polarities, 'subjectivity':subjectivities}
+
+def get_weighted_polarity_mean(valid_tweets):
+    return np.average(valid_tweets['polarity'],weights=valid_tweets['subjectivity'])
+
+def get_polarity_mean(valid_tweets):
+    return np.mean(valid_tweets['polarity'])
+
+def print_result(mean):
+    if mean > 0.0:
+        print('POSITIVE')
+    elif mean == 0.0:
+        print('NEUTRO')
+    else:
+        print('NEGATIVE')
+
+if __name__ == "__main__":
+    query = input("Entre a query de analise: ")
+    analysis = tweet_analysis(query)
+
+    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(analysis)))
+    print_result(get_weighted_polarity_mean(analysis))
+
+    print('MÉDIA: ' + str(get_polarity_mean(analysis)))
+    print_result(get_polarity_mean(analysis))
+```
+
+**Obs.: Fiquem a vontade para testar entidades de interesse diferentes, aumentar ou diminuir o numero de resultados;**
+
+## Explorando o Tweepy
+
+
+## Analisando os resultados
+
+Agora que já conseguimos gerar alguns resultados, vale a pena parar um pouco e analisá-los, assim poderemos observar algumas das dificuldades da Análise de sentimento.
+
+### Significados ambíguos
+
+Enquanto eu estava ajeitando os últimos detalhers desse tutorial no ~~domingo~~ com vários meses de antecedência, me deparei com um resultado curioso ao pesquisar por um dos Trending Topics do Brasil: `Fantastico`:
+
+Na noite de domingo uma galera no Twitter estava **furiosa** com alguma matéria que saiu no programa *Fantástico*:
+
+```sh
+Tweet: #Fantástico Mestre na arte da manipulação das massas! Admira Hitler #fantastico #pas
+Polarity: 0.45 \ 0.9
+.....................
+Tweet: #fantásticolixo #Fantástico #globolixo
+Polarity: 0.4 \ 0.9
+.....................
+Tweet: #Faustão na militância, e quando acaba vc se lembra que vem logo à seguir o #Fantástico. Esse ano não assisto mais. #BoicoteAGlobo
+Polarity: 0.2 \ 0.5
+.....................
+```
+
+Como é possivel observar, não são tweets muito amigáveis, entretanto, se observarmos a polaridade deles, ela está tendendo mais para o positivo... Por quê? A resposta é simples: o nome do programa. *"Fantástico"* nesse caso está sendo interpretado como uma caracteristica muito positiva, quando na verdade é somente o nome de um programa.
+
+### Tamanho do dataset
+
+Outra coisa que pode gerar dificuldade é o numero de entradas com que temos que trabalhar. Quanto mais dados nós temos (tweets no contexto desse tutorial) melhor e mais precisa será a nossa análise, porém iremos precisar de mais capacidade de processamento. Experimente aumentar o numero de tweets buscados para `100` (que não é nem próximo de uma quantidade satidfatória de análise) e veja quanto tempo demora para o nosso programinha terminar de executar;
+
+```python
+def tweet_analysis(query):
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(30)
+```
+
+Demora não é? Capacidade de processamento é um desafio recorrendte quando se trata de análise textual;
+
+### Perdidos na Tradução
+
+Como já havia mencionado anteriormente no tutorial, a maioria dos processadore textuais livres estão setados para a língua inglesa, então quando se trata de realizar análises para outros idiomas, é necessário que haja um processo de tradução. Veja o que acontece quando a frase `Choque de cultura é irado!` (que tem uma conotação positiva em português) é traduzida pelo google tradutor:
+
+![Choque de cultura is angry](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/choque-de-cultura.png)
+
+`angry` (irritado, irado) em inglês tem uma conotação negativa, fazendo com que um tweet com esse texto, seja interpretado como tendo uma polaridade negativa por causa da tradução, quando na verdade o seu sentido era exatamente o oposto.
+
+## Considerações finais
+
+Chegamos ao fim do nosso tutorial! Espero que tenha sido possível aprender um pouco sobre análise de sentimentos e manipulação textual. Quaisquer dúvidas, podem entrar em contato:
+
+**E-mail:** bmcosta13@gmail.com
+**Facebook:** fb.com/error404not
+**Twitter:** @ngasonicunicorn
+
+### Referências
+
+Eu utilizei de alguns artigos maravilhosos sobre o assunto para conseguir montar esse tutorial, são eles:
+
+- [Criando um analisador de sentimentos para tweets](https://medium.com/@viniljf/criando-um-analisador-de-sentimentos-para-tweets-a53bae0c5147)
+- [Aprenda a fazer um Analisador de Sentimentos do Twitter em Python](https://paulovasconcellos.com.br/aprenda-a-fazer-um-analisador-de-sentimentos-do-twitter-em-python-3979454f2d0d)
+- [Introduction to Sentiment Analysis](https://lct-master.org/files/MullenSentimentCourseSlides.pdf)
+- [TextBlob: Simplified Text Processing](https://textblob.readthedocs.io/en/dev/)
+- [Tweepy](http://www.tweepy.org/)
