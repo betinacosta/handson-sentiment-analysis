@@ -28,6 +28,8 @@ Vamos inciar com a parte mais chata e trabalhosa, criar um perfil de desenvolved
 
 ![Apply for a developer account](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/apply-developer.png)
 
+![Continue](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/continue.jpeg)
+
 **3**. Informe o tipo de conta que você está criando (`Personal Use` provavelmente) e preencha as informações solicitadas:
 
 ![Tipo de Conta](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/tipo-de-conta.png)
