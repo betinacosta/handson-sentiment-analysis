@@ -62,11 +62,14 @@ Em `Will your product, service, or analysis make Twitter content or derived info
 ```text
 This app will be used to develop a simple Sentiment Analysis App for a tutorial at Python Brasil 2018
 ```
+
+Quanto ao `website`, você pode colcar qualquer URL, incluisive a do seu perfil do twitter;
+
 **3**. Acesse `Keys and Tokens` para visualizar seus dados de autenticação.
 
 ![Keys and Tokens](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/keys-and-tokens.png)
 
-*Obs.: Para o Access Token e o Access Token Secret aparecerem é preciso clicar em `Generate Tokens` (Ou algo muito próximo disso) que se encontra mais abaixo na página. ~~A Apressadinha já saiu apertando e não conseguiu tirar o print~~*
+*Obs.: Para o Access Token e o Access Token Secret aparecerem é preciso clicar em `Create Tokens` (Ou algo muito próximo disso) que se encontra mais abaixo na página. ~~A Apressadinha já saiu apertando e não conseguiu tirar o print~~*
 
 **4**. Agora que você está com seu APP criado e tem todas as permissões, podemos seguir para a parte divertida.
 
@@ -107,7 +110,7 @@ api = tweepy.API(auth)
 
 *Obs2.: Caso vocês estejam tendo o erro `SyntaxError: invalid syntax` em `def _start(self, async):`, execute `$pip3 install --upgrade git+https://github.com/tweepy/tweepy.git`*
 
-**4**. Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a #PythoBrasil, podemos buscar os tweetes que façam referência a esse tópico.
+**4**. Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a `Python Brasil`, podemos buscar os tweetes que façam referência a esse tópico.
 
 ```python
 tweets = api.search('Python Brasil')
@@ -135,11 +138,13 @@ def is_english(text):
     return False
 ```
 
-*Obs.: Vale lembrar que isso pode prejudicar um pouco a análise, pois alguns significado podem se perder durante a tradução. Existem outras formas de realizar análise de sentimento diretamente na língua portuguesa, porém, o objetivo desse tutorial é aprendermo primeiramente a maneira mais simples antes de recorrer a técnicas mais avançadas.*
+*Obs.: Vale lembrar que isso pode prejudicar um pouco a análise, pois alguns significado podem se perder durante a tradução. Existem outras formas de realizar análise de sentimento diretamente na língua portuguesa, porém, o objetivo desse tutorial é aprendermos primeiramente a maneira mais simples antes de recorrer a técnicas mais avançadas.*
 
 **7**. Dentro do `for`, vamos verificar se o idioma do tweet é diferente do inglês com a função que acabamos de criar. Caso seja, vamos traduzir antes de realizar a análise de sentimento
 
 ```python
+polarities = []
+
 for tweet in tweets:
     phrase = TextBlob(tweet.text)
 
@@ -170,10 +175,34 @@ if (phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0):
     polarities.append(phrase.sentiment.polarity)
 ```
 
+Agora que está parte está finalizada, podemos colocar isso dentro de uma função para deixar tudo mais bonito e organizado:
+
+```python
+def tweet_analysis():
+    polarities = []
+
+    for tweet in tweets:
+        phrase = TextBlob(tweet.text)
+
+        if not is_english(phrase):
+            phrase = TextBlob(str(phrase.translate(to='en')))
+            
+        if (phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0):
+            polarities.append(phrase.sentiment.polarity)
+
+        print('Tweet: ' + tweet.text)
+        print('Polarity: ' + str(phrase.sentiment.polarity) + " \ " + str(phrase.sentiment.subjectivity))
+        print('.....................')
+        
+        return polarities
+```
+
 **9**. E usar o numpy para calcular a média das polaridades e descobrir se a média da opinião é positiva (mais próxima de 1) ou negativa (mais próxima de -1)
 
 ```python
-print('Média: ' + polarity_mean)
+polarity_mean = np.mean(polarities)
+
+print('Média: ' + str(polarity_mean))
 if(polarity_mean > 0.0):
     print('POSITIVE')
 else:
@@ -218,12 +247,48 @@ def get_weighted_polarity_mean(valid_tweets):
 
 return {'polarity':polarities, 'subjectivity':subjectivities}
 ```
+*Obs.: É necessário setar o `subjectivities = []` da mesma forma que o `polarities`.*
+
+**14.1**. Podemos aproveitar o embalo e transformar a média simples em um método também:
+
+```python
+def get_polarity_mean(valid_tweets):
+    return np.mean(valid_tweets['polarity'])
+```
+
+*Obs.: O `valid_tweets` nada mais é do que o retorno da nossa função*
 
 **15**. Também podemos transformar a query utilizada (`q`) em um parametro recebido pela função que irá reralizar a análise:
 
 ```python
 def tweet_analysis(query):
     tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
+```
+
+**17**. Para conseguirmos vizualizar melhor nossos resultados podemos criar a seguinte função que se responsabiliza por mostrá-los na tela:
+
+```python
+def print_result(mean):
+    if mean > 0.0:
+        print('POSITIVE')
+    elif mean == 0.0:
+        print('NEUTRO')
+    else:
+        print('NEGATIVE')
+```
+
+**18**. E, para mostrar tudo que fizemos até agora:
+
+```python
+if __name__ == "__main__":
+    query = input("Entre a query de analise: ")
+    analysis = tweet_analysis(query)
+
+    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(analysis)))
+    print_result(get_weighted_polarity_mean(analysis))
+
+    print('MÉDIA: ' + str(get_polarity_mean(analysis)))
+    print_result(get_polarity_mean(analysis))
 ```
 
 **16**. O Código final ficaria assim:
