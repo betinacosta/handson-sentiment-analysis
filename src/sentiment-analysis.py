@@ -16,7 +16,7 @@ def is_english(text):
     return False
 
 def tweet_analysis(query):
-    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(100)
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets", result_type="recent").items(100)
 
     subjectivities = []
     polarities = []
@@ -37,11 +37,11 @@ def tweet_analysis(query):
 
     return {'polarity':polarities, 'subjectivity':subjectivities}
 
-def get_weighted_polarity_mean(valid_tweets):
-    return np.average(valid_tweets['polarity'],weights=valid_tweets['subjectivity'])
+def get_weighted_polarity_mean(sentiment):
+    return np.average(sentiment['polarity'],weights=sentiment['subjectivity'])
 
-def get_polarity_mean(valid_tweets):
-    return np.mean(valid_tweets['polarity'])
+def get_polarity_mean(sentiment):
+    return np.mean(sentiment['polarity'])
 
 def print_result(mean):
     if mean > 0.0:
@@ -53,10 +53,10 @@ def print_result(mean):
 
 if __name__ == "__main__":
     query = input("Entre a query de analise: ")
-    analysis = tweet_analysis(query)
+    sentiment = tweet_analysis(query)
 
-    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(analysis)))
-    print_result(get_weighted_polarity_mean(analysis))
+    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(sentiment)))
+    print_result(get_weighted_polarity_mean(sentiment))
 
-    print('MÉDIA: ' + str(get_polarity_mean(analysis)))
-    print_result(get_polarity_mean(analysis))
+    print('MÉDIA: ' + str(get_polarity_mean(sentiment)))
+    print_result(get_polarity_mean(sentiment))
