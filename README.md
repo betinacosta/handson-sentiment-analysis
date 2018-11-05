@@ -1,6 +1,6 @@
 # Hands on Análise de Sentimentos
 
-Já pensou se você conseguisse identificar as respostas emocionais que usuários apresentam sobre uma determinada entidade de interesse? Saber se as pessoas ficaram felizes com a venda do GitHub para a Microsoft, ou mais tristes do que o Tony Stark no final de Guerra Infinita? Bom, você veio ao lugar certo, nesse turtorial vamos aprender da forma mais simples possível como criar um analisador de sentimentos com dados obtido pelo Twitter. Bora?
+Já pensou se você conseguisse identificar as respostas emocionais que usuários apresentam sobre uma determinada entidade de interesse? Saber se as pessoas ficaram felizes com a venda do GitHub para a Microsoft, ou mais tristes do que o Tony Stark no final de Guerra Infinita? Bom, você veio ao lugar certo, nesse tutorial vamos aprender da forma mais simples possível como criar um analisador de sentimentos com dados obtido pelo Twitter. Bora?
 
 ## Pré-Requisitos
 
@@ -80,7 +80,7 @@ import numpy as np
 from textblob import TextBlob
 ```
 
-**2**. Agora vamos setar as variaveis que vão receber as chaves da sua API do Twitter
+**2**. Agora vamos setar as variáveis que vão receber as chaves da sua API do Twitter
 
 ```python
 consumer_key='your_consumer_key'
@@ -90,11 +90,11 @@ access_token='access_token'
 access_token_secret='access_token_secret'
 ```
 
-*Obs.: Se você preferir, pode colocar as chaves em um arquivo separado*
+*__Obs.: Se você preferir, pode colocar as chaves em um arquivo separado__*
 
-*Obs2.: Se você for commitar esse código am algum lugar, recomendo [settar as chaves como variaveis de ambiente e importá-las](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/src/keys.py)*
+*__Obs2.: Se você for commitar esse código am algum lugar, recomendo [settar as chaves como variáveis de ambiente e importá-las](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/src/keys.py)__*
 
-**3**. Tendo setado as variaveis, vamos fazer a autenticação do nosso script na API do Twitter:
+**3**. Tendo setado as variáveis, vamos fazer a autenticação do nosso script na API do Twitter:
 
 ```python
 auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
@@ -105,9 +105,9 @@ api = tweepy.API(auth)
 
 *Obs.: Se você quiser saber se a autenticação está funcionando, `tweepy.API(auth)` deve retornar algo parecido com `<tweepy.api.API object at 0x10d3c3240>`*
 
-*Obs2.: Caso vocês estejam tendo o erro `SyntaxError: invalid syntax` em `def _start(self, async):`, execute `$pip3 install --upgrade git+https://github.com/tweepy/tweepy.git`*
+*__Obs2.: Caso vocês estejam tendo o erro `SyntaxError: invalid syntax` em `def _start(self, async):`, execute `$pip3 install --upgrade git+https://github.com/tweepy/tweepy.git`__*
 
-**4**. Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a #PythoBrasil, podemos buscar os tweetes que façam referência a esse tópico.
+**4**. Agora vamos buscar pelos nosso tweets, para isso, vamos utilizar a busca do tweepy. Como a coisa mais importante essa semana certamente é a Python Brasil, podemos buscar os tweetes que façam referência a esse tópico.
 
 ```python
 tweets = api.search('Python Brasil')
@@ -126,7 +126,7 @@ for tweet in tweets:
     phrase = TextBlob(tweet.text)
 ```
 
-**6**. Uma vez que temos os tweets, podemos fazer a análise de sentimento contido em seu texto. Entretanto, temos um problema: O algoritimo da TextBlob foi treinado para fazer análise de textos em língua inglesa. Por isso, vamos ter que utilizar um recurso que faz a tradução para a inglês dos textos que estiverem em um  idioma diferenete (O TextBlob utiliza o google tradutor para isso). Para isso, vamos criar uma função para verificar o idioma do tweet:
+**6**. Uma vez que temos os tweets, podemos fazer a análise de sentimento contido em seu texto. Entretanto, temos um problema: O algoritmo da TextBlob foi treinado para fazer análise de textos em língua inglesa. Por isso, vamos ter que utilizar um recurso que faz a tradução para a inglês dos textos que estiverem em um  idioma diferente (O TextBlob utiliza o google tradutor para isso). Para isso, vamos criar uma função para verificar o idioma do tweet:
 
 ```python
 def is_english(text):
@@ -159,7 +159,7 @@ Antes de continuarmos, vamos entender um pouco do que estamos vendo:
 
 **SUBJECTIVITY (SUBJETIVIDADE):** Um valor variante entre 0.0 e 1.0, onde 0 se refere a um valor 100% objetivo e 1.0 um 100% subjetivo
 
-**SUBJETIVIDADE x OBJETIVIDA:** Sentenças objetivas normalmente possuem fatos ou informaçãoes, enquanto sentenças subjetivas expressam sentimentos pessoais e opiniões
+**SUBJETIVIDADE x OBJETIVIDADE:** Sentenças objetivas normalmente possuem fatos ou informações, enquanto sentenças subjetivas expressam sentimentos pessoais e opiniões
 
 ### Continuando...
 
@@ -170,7 +170,7 @@ if (phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0):
     polarities.append(phrase.sentiment.polarity)
 ```
 
-**9**. E usar o numpy para calcular a média das polaridades e descobrir se a média da opinião é positiva (mais próxima de 1) ou negativa (mais próxima de -1)
+**9**. E usar o Numpy para calcular a média das polaridades e descobrir se a média da opinião é positiva (mais próxima de 1) ou negativa (mais próxima de -1)
 
 ```python
 print('Média: ' + polarity_mean)
@@ -190,15 +190,40 @@ else:
 tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets").items(20)
 ```
 
-Dessa forma, iremos filtrar somente os tweets que não forem retweets e pegar o numero de tweets determinados;
+Dessa forma, iremos filtrar somente os tweets que não forem retweets e pegar o numero determinado de tweets ;
 
-**12**. Outra coisa que podemos fazer, é passar o parametro result_type='recent' para pegarmos os tweets mais recentes:
+**12**. Outra coisa que podemos fazer, é passar o parâmetro result_type='recent' para pegarmos os tweets mais recentes:
 
 ```python
 tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets", result_type="recent").items(20)
 ```
 
-**13**. Outra abordagem que podemos tentar, é aplicar uma média ponderada ao invés de uma média simples...
+**13**. Antes de seguirmos para os próximos passos, podemos refatorar um pouco nosso código para deixar as coisas mais claras. Como por exemplo, podemos armazenar nossas polaridades e subjetividades em um dicionário e retorná-lo, assim podemos utilizar esses dados da forma que preferirmos:
+
+```python
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
+
+    subjectivities = []
+    polarities = []
+
+    for tweet in tweets:
+        phrase = TextBlob(tweet.text)
+
+        if not is_english(phrase):
+            phrase = TextBlob(str(phrase.translate(to='en')))
+
+        if phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0:
+            polarities.append(phrase.sentiment.polarity)
+            subjectivities.append(phrase.sentiment.subjectivity)
+
+        print('Tweet: ' + tweet.text)
+        print('Polarity: ' + str(phrase.sentiment.polarity) + " \ " + str(phrase.sentiment.subjectivity))
+        print('.....................')
+
+    return {'polarity':polarities, 'subjectivity':subjectivities}
+```
+
+**14**. Agora que temos um dicionário com todas informações que precisamos, uma abordagem que podemos tentar, é aplicar uma média ponderada ao invés de uma média simples...
 
 ![Meme nazare](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/media-ponderada.jpg)
 
@@ -209,24 +234,35 @@ def get_weighted_polarity_mean(valid_tweets):
     return np.average(valid_tweets['polarity'],weights=valid_tweets['subjectivity'])
 ```
 
-**14**. Como vocês devem ter percebido, a função `np.average` está recebendo um dicionário, coisa que nós não fizemos. Essa é outra pequena mudança que podemos fazer para armazenar todos os valores relevantes para a nossa análise. Desta forma ficamos com:
+**15** Aproveitando o embalo, podemos colocar a média normal também em uma função para manter um padrão:
 
 ```python
-    if phrase.sentiment.polarity != 0.0 and phrase.sentiment.subjectivity != 0.0:
-        polarities.append(phrase.sentiment.polarity)
-        subjectivities.append(phrase.sentiment.subjectivity)
-
-return {'polarity':polarities, 'subjectivity':subjectivities}
+def get_polarity_mean(valid_tweets):
+    return np.mean(valid_tweets['polarity'])
 ```
 
-**15**. Também podemos transformar a query utilizada (`q`) em um parametro recebido pela função que irá reralizar a análise:
+**16**. Também podemos transformar a query utilizada (`q`) em um parâmetro recebido pela função que irá realizar a análise:
 
 ```python
 def tweet_analysis(query):
     tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
 ```
 
-**16**. O Código final ficaria assim:
+**17**. Para finalizar esta parte, podemos adicionar um `if __name__ == "__main__"` para rodar o nosso script.
+
+```python
+if __name__ == "__main__":
+    query = input("Entre a query de analise: ")
+    analysis = tweet_analysis(query)
+
+    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(analysis)))
+    print_result(get_weighted_polarity_mean(analysis))
+
+    print('MÉDIA: ' + str(get_polarity_mean(analysis)))
+    print_result(get_polarity_mean(analysis))
+```
+
+**18**. O Código final ficaria assim:
 
 ```python
 import tweepy
@@ -324,18 +360,18 @@ Como é possivel observar, não são tweets muito amigáveis, entretanto, se obs
 
 ### Tamanho do dataset
 
-Outra coisa que pode gerar dificuldade é o numero de entradas com que temos que trabalhar. Quanto mais dados nós temos (tweets no contexto desse tutorial) melhor e mais precisa será a nossa análise, porém iremos precisar de mais capacidade de processamento. Experimente aumentar o numero de tweets buscados para `100` (que não é nem próximo de uma quantidade satidfatória de análise) e veja quanto tempo demora para o nosso programinha terminar de executar;
+Outra coisa que pode gerar dificuldade é o numero de entradas com que temos que trabalhar. Quanto mais dados nós temos (tweets no contexto desse tutorial) melhor e mais precisa será a nossa análise, porém iremos precisar de mais capacidade de processamento. Experimente aumentar o numero de tweets buscados para `200` (que não é nem próximo de uma quantidade satisfatória de análise) e veja quanto tempo demora para o nosso programinha terminar de executar;
 
 ```python
 def tweet_analysis(query):
     tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(30)
 ```
 
-Demora não é? Capacidade de processamento é um desafio recorrendte quando se trata de análise textual;
+Demora não é? Capacidade de processamento é um desafio recorrente quando se trata de análise textual;
 
 ### Perdidos na Tradução
 
-Como já havia mencionado anteriormente no tutorial, a maioria dos processadore textuais livres estão setados para a língua inglesa, então quando se trata de realizar análises para outros idiomas, é necessário que haja um processo de tradução. Veja o que acontece quando a frase `Choque de cultura é irado!` (que tem uma conotação positiva em português) é traduzida pelo google tradutor:
+Como já havia mencionado anteriormente no tutorial, a maioria dos processadores textuais livres estão setados para a língua inglesa, então quando se trata de realizar análises para outros idiomas, é necessário que haja um processo de tradução. Veja o que acontece quando a frase `Choque de cultura é irado!` (que tem uma conotação positiva em português) é traduzida pelo google tradutor:
 
 ![Choque de cultura is angry](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/choque-de-cultura.png)
 

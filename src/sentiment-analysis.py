@@ -16,7 +16,7 @@ def is_english(text):
     return False
 
 def tweet_analysis(query):
-    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets", result_type="recent").items(100)
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets", result_type="recent").items(50)
 
     subjectivities = []
     polarities = []
