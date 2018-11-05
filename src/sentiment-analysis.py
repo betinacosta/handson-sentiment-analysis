@@ -47,16 +47,16 @@ def print_result(mean):
     if mean > 0.0:
         print('POSITIVE')
     elif mean == 0.0:
-        print('NEUTRO')
+        print('NEUTRAL')
     else:
         print('NEGATIVE')
 
 if __name__ == "__main__":
-    query = input("Entre a query de analise: ")
+    query = input("Enter analysis query: ")
     sentiment = tweet_analysis(query)
 
-    print('MÉDIA PONDERADA: ' + str(get_weighted_polarity_mean(sentiment)))
+    print('WEIGHTED MEAN: ' + str(get_weighted_polarity_mean(sentiment)))
     print_result(get_weighted_polarity_mean(sentiment))
 
-    print('MÉDIA: ' + str(get_polarity_mean(sentiment)))
+    print('MEAN: ' + str(get_polarity_mean(sentiment)))
     print_result(get_polarity_mean(sentiment))
