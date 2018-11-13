@@ -32,7 +32,7 @@ def tweet_analysis(query):
             subjectivities.append(phrase.sentiment.subjectivity)
 
         print('Tweet: ' + tweet.text)
-        print('Polarity: ' + str(phrase.sentiment.polarity) + " \ " + str(phrase.sentiment.subjectivity))
+        print('Polarity: ' + str(phrase.sentiment.polarity) + ' \ Subjectivity: ' + str(phrase.sentiment.subjectivity))
         print('.....................')
 
     return {'polarity':polarities, 'subjectivity':subjectivities}

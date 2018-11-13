@@ -5,6 +5,7 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 ## Pré-Requisitos
 
 - Python3
+- Git
 - Pip
 - TextBlob
 - TweePy
@@ -401,11 +402,11 @@ Como é possível observar, não são tweets muito amigáveis, entretanto, se ob
 
 ### Tamanho do dataset
 
-Outra coisa que pode gerar dificuldade é o numero de entradas com que temos que trabalhar. Quanto mais dados nós temos (tweets no contexto desse tutorial) melhor e mais precisa será a nossa análise, porém iremos precisar de mais capacidade de processamento. Experimente aumentar o numero de tweets buscados para `200` (que não é nem próximo de uma quantidade satisfatória de análise) e veja quanto tempo demora para o nosso programinha terminar de executar;
+Outra coisa que pode gerar dificuldade é o numero de entradas com que temos que trabalhar. Quanto mais dados nós temos (tweets no contexto desse tutorial) melhor e mais precisa será a nossa análise, porém iremos precisar de mais capacidade de processamento. Experimente aumentar o numero de tweets buscados para `300` (que não é nem próximo de uma quantidade satisfatória de análise) e veja quanto tempo demora para o nosso programinha terminar de executar;
 
 ```python
 def tweet_analysis(query):
-    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(30)
+    tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(300)
 ```
 
 Demora não é? Capacidade de processamento é um desafio recorrente quando se trata de análise textual;
