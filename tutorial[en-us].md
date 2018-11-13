@@ -54,7 +54,7 @@ On `Will your product, service, or analysis make Twitter content or derived info
 
 ## Creating an APP on Twitter
 
-**1**. Access [Twitter's development site] (https://developer.twitter.com/en/apps) and click `Create an APP`
+**1**. Access [Twitter's development site](https://developer.twitter.com/en/apps) and click `Create an APP`
 
 
 ![Creating an App](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/craindo-app.png)
