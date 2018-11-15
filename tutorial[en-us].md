@@ -35,7 +35,7 @@ Let's begin with the boring part: create a developer profile and an APP on Twitt
 
 ![Account Type](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/tipo-de-conta.png)
 
-**4**. On the next page there will be some info that needs to be fill. Fill the fiel `What use case(s) are you interested in?` according to the image bellow and at `Describe in your own words what you are building` enter the following text:
+**4**. On the next page there will be some info that needs to be fill. Fill the field `What use case(s) are you interested in?` according to the image bellow and at `Describe in your own words what you are building` enter the following text:
 
 ```text
 1. I’m using Twitter’s APIs to run a Python Brasil Tutorial about Sentiment Analysis;
@@ -199,7 +199,7 @@ def tweet_analysis():
     return polarities
 ```
 
-**9**. And use numpy to calculate the polarities mean and find out whether the average opinion os positive (closest to 1.0) or negative (closest to -1.0)
+**9**. And use numpy to calculate the polarities mean and find out whether the average opinion is positive (closest to 1.0) or negative (closest to -1.0)
 
 ```python
 polarity_mean = np.mean(polarities)
@@ -223,7 +223,7 @@ tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets").items(20)
 
 This ways, we will filter only the tweets that aren't retweets and get a chosen number of tweets
 
-**12**. Another thing we can do, os pass `result_type='recent'` parameter in order to get only the most recent tweets
+**12**. Another thing we can do, is pass `result_type='recent'` parameter in order to get only the most recent tweets
 
 ```python
 tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets", result_type="recent").items(20)
@@ -279,7 +279,7 @@ def tweet_analysis(query):
     tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
 ```
 
-**17**. For a better visualization of results, we can create a function that will responsible for showing results on screen:=
+**17**. For a better visualization of results, we can create a function that will responsible for showing results on screen:
 
 ```python
 def print_result(mean):
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     print_result(get_polarity_mean(analysis))
 ```
 
-**16**. The final code will be something like this:=
+**16**. The final code will be something like this:
 
 ```python
 import tweepy
