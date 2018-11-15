@@ -38,7 +38,7 @@ Let's begin with the boring part: create a developer profile and an APP on Twitt
 **4**. On the next page there will be some info that needs to be fill. Fill the field `What use case(s) are you interested in?` according to the image bellow and at `Describe in your own words what you are building` enter the following text:
 
 ```text
-1. I’m using Twitter’s APIs to run a Python Brasil Tutorial about Sentiment Analysis;
+1. I’m using Twitter’s APIs to run a PyCon Tutorial about Sentiment Analysis;
 2. I plan to analyse Tweets to understand how people are feeling regarding some subject.
 3. The solution does not involve tweeting, retweeting, neither liking content on twitter. It is just for analysis;
 4. The solution does not involve displaying twitter explicitly, but its polarity and subjectivity
@@ -121,7 +121,7 @@ tweets = api.search('PyCon')
 or ignore RTs to have a slightly more targeted result:
 
 ```python
-tweets = api.search('Python Brasil -filter:retweets')
+tweets = api.search('PyCon -filter:retweets')
 ```
 
 **5**. And iterate over the results by taking our tweets `tweet.text` and putting in TextBlob
@@ -215,10 +215,10 @@ else:
 
 ### Going a little further
 
-**11**. Let's change our search method a little: instead of `tweets = api.search('Python Brasil -filter:retweets')` let's use: 
+**11**. Let's change our search method a little: instead of `tweets = api.search('PyCon -filter:retweets')` let's use:
 
 ```python
-tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets").items(20)
+tweets = tweepy.Cursor(api.search, q="PyCon -filter:retweets").items(20)
 ```
 
 This ways, we will filter only the tweets that aren't retweets and get a chosen number of tweets
@@ -226,7 +226,7 @@ This ways, we will filter only the tweets that aren't retweets and get a chosen 
 **12**. Another thing we can do, is pass `result_type='recent'` parameter in order to get only the most recent tweets
 
 ```python
-tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets", result_type="recent").items(20)
+tweets = tweepy.Cursor(api.search, q="PyCon -filter:retweets", result_type="recent").items(20)
 ```
 
 **13**. Before we proceed to the next steps, we can refactor our code a bit to make things clearer. As for example, we can store our polarities and subjectivities in a dictionary and return it. This way, we can use this data the way we prefer:
