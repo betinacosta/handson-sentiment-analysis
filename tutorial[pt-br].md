@@ -4,18 +4,27 @@ Já pensou se você conseguisse identificar as respostas emocionais que usuário
 
 ## Pré-Requisitos
 
-- Python3
+- Python3.7
+- Pipenv
 - Git
-- Pip
-- TextBlob
-- TweePy
-- Numpy
 - Uma conta no Twitter
 
-### Instalando as bibliotecas
+### Instalando as bibliotecas (MACOS e LINUX)
 
-- `pip install -r requirements.txt`
-- `python -m textblob.download_corpora`
+Digite o seguinte comando no seu terminal:
+
+- `make setup`
+
+Isso irá criar e ativar um ambiente virtual com tudo o que você precisa para trabalhar
+
+### Instalando as bibliotecas (Windows)
+
+Digite os seguintes comando no seu terminal:
+
+- `pipenv install`
+- `pipenv shell`
+
+Isso irá criar e ativar um ambiente virtual com tudo o que você precisa para trabalhar
 
 ## Requisitando um perfil de Desenvolvedor
 

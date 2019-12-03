@@ -6,16 +6,25 @@ Imagine if you were able to identify users' emotional responses to a particular 
 
 - Python3
 - Git
-- Pip
-- TextBlob
-- TweePy
-- Numpy
+- Pipenv
 - A Twitter account
 
-### Installing the libraries
+### Installing the libraries (MACOS and LINUX)
 
-- `pip install -r requirements.txt`
-- `python -m textblob.download_corpora`
+Enter the following command at your terminal:
+
+- `make setup`
+
+This will create and activate a virtual environment with everything you need.
+
+### Installing the libraries (Windows)
+
+Enter the following command at your terminal:
+
+- `pipenv install`
+- `pipenv shell`
+
+This will create and activate a virtual environment with everything you need.
 
 ## Requesting a developer profile
 
@@ -77,7 +86,7 @@ Regarding to `website`, you can enter any URL you like, including your twitter p
 
 ## Let's get to work!
 
-**1**. Finally we can proceed to what this tutorial is really about! Let's start by creating an .py file at the editor you feel more    comfortable with and import the libs we are going to use: 
+**1**. Finally we can proceed to what this tutorial is really about! Let's start by creating an .py file at the editor you feel more    comfortable with and import the libs we are going to use:
 
 ```python
 import tweepy
@@ -215,7 +224,7 @@ else:
 
 ### Going a little further
 
-**11**. Let's change our search method a little: instead of `tweets = api.search('Python Brasil -filter:retweets')` let's use: 
+**11**. Let's change our search method a little: instead of `tweets = api.search('Python Brasil -filter:retweets')` let's use:
 
 ```python
 tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets").items(20)
