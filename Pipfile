@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "==1.17.4"
+textblob = "==0.15.3"
+tweepy = "==3.8.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
