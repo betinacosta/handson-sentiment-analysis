@@ -44,10 +44,10 @@ Let's begin with the boring part: create a developer profile and an APP on Twitt
 
 ![Account Type](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/tipo-de-conta.png)
 
-**4**. On the next page there will be some info that needs to be fill. Fill the fiel `What use case(s) are you interested in?` according to the image bellow and at `Describe in your own words what you are building` enter the following text:
+**4**. On the next page there will be some info that needs to be fill. Fill the field `What use case(s) are you interested in?` according to the image bellow and at `Describe in your own words what you are building` enter the following text:
 
 ```text
-1. I’m using Twitter’s APIs to run a Python Brasil Tutorial about Sentiment Analysis;
+1. I’m using Twitter’s APIs to run a PyCon Tutorial about Sentiment Analysis;
 2. I plan to analyse Tweets to understand how people are feeling regarding some subject.
 3. The solution does not involve tweeting, retweeting, neither liking content on twitter. It is just for analysis;
 4. The solution does not involve displaying twitter explicitly, but its polarity and subjectivity
@@ -63,7 +63,7 @@ On `Will your product, service, or analysis make Twitter content or derived info
 
 ## Creating an APP on Twitter
 
-**1**. Access [Twitter's development site] (https://developer.twitter.com/en/apps) and click `Create an APP`
+**1**. Access [Twitter's development site](https://developer.twitter.com/en/apps) and click `Create an APP`
 
 
 ![Creating an App](https://github.com/betinacosta/handson-sentiment-analysis/blob/master/images/craindo-app.png)
@@ -130,7 +130,7 @@ tweets = api.search('PyCon')
 or ignore RTs to have a slightly more targeted result:
 
 ```python
-tweets = api.search('Python Brasil -filter:retweets')
+tweets = api.search('PyCon -filter:retweets')
 ```
 
 **5**. And iterate over the results by taking our tweets `tweet.text` and putting in TextBlob
@@ -208,7 +208,7 @@ def tweet_analysis():
     return polarities
 ```
 
-**9**. And use numpy to calculate the polarities mean and find out whether the average opinion os positive (closest to 1.0) or negative (closest to -1.0)
+**9**. And use numpy to calculate the polarities mean and find out whether the average opinion is positive (closest to 1.0) or negative (closest to -1.0)
 
 ```python
 polarity_mean = np.mean(polarities)
@@ -224,18 +224,18 @@ else:
 
 ### Going a little further
 
-**11**. Let's change our search method a little: instead of `tweets = api.search('Python Brasil -filter:retweets')` let's use:
+**11**. Let's change our search method a little: instead of `tweets = api.search('PyCon -filter:retweets')` let's use:
 
 ```python
-tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets").items(20)
+tweets = tweepy.Cursor(api.search, q="PyCon -filter:retweets").items(20)
 ```
 
 This ways, we will filter only the tweets that aren't retweets and get a chosen number of tweets
 
-**12**. Another thing we can do, os pass `result_type='recent'` parameter in order to get only the most recent tweets
+**12**. Another thing we can do, is pass `result_type='recent'` parameter in order to get only the most recent tweets
 
 ```python
-tweets = tweepy.Cursor(api.search, q="Python Brasil -filter:retweets", result_type="recent").items(20)
+tweets = tweepy.Cursor(api.search, q="PyCon -filter:retweets", result_type="recent").items(20)
 ```
 
 **13**. Before we proceed to the next steps, we can refactor our code a bit to make things clearer. As for example, we can store our polarities and subjectivities in a dictionary and return it. This way, we can use this data the way we prefer:
@@ -288,7 +288,7 @@ def tweet_analysis(query):
     tweets = tweepy.Cursor(api.search, q=query + " -filter:retweets").items(20)
 ```
 
-**17**. For a better visualization of results, we can create a function that will responsible for showing results on screen:=
+**17**. For a better visualization of results, we can create a function that will responsible for showing results on screen:
 
 ```python
 def print_result(mean):
@@ -314,7 +314,7 @@ if __name__ == "__main__":
     print_result(get_polarity_mean(analysis))
 ```
 
-**16**. The final code will be something like this:=
+**16**. The final code will be something like this:
 
 ```python
 import tweepy
